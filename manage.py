@@ -3,7 +3,7 @@ import os
 
 from flask_script import Manager
 
-from simple_app import app
+from some_app import app
 
 manager = Manager(app)
 
@@ -49,7 +49,7 @@ def runuwsgi(host='0.0.0.0', port='8080'):
     if host == 'localhost':
         host = '127.0.0.1'
 
-    os.environ.setdefault('UWSGI_MODULE', 'simple_app.wsgi')
+    os.environ.setdefault('UWSGI_MODULE', 'some_app.wsgi')
     os.environ.setdefault('UWSGI_PROTOCOL', 'uwsgi')
 
     os.environ.setdefault('UWSGI_HTTP_SOCKET', ':%s' % port)
@@ -57,9 +57,6 @@ def runuwsgi(host='0.0.0.0', port='8080'):
     os.environ.setdefault('UWSGI_PORT', port)
 
     os.environ.setdefault('UWSGI_MASTER', 'true')
-
-    # os.environ.setdefault('UWSGI_MASTER_AS_ROOT', 'true')
-    # os.environ.setdefault('UWSGI_THUNDER_LOCK', 'true')
 
     os.execvp('uwsgi', ('uwsgi',))
 

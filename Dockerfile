@@ -5,8 +5,8 @@ ENV BUILD_DEPS \
 
 ENV RUN_DEPS \
     gettext \
-    libhiredis0.13 \
     git-core \
+
     iputils-ping \
     traceroute \
     net-tools \
@@ -28,7 +28,7 @@ RUN pip install --no-cache-dir -r /application/requirements.txt --src /usr/local
 
 ADD . /application
 
-# Allows non-root process to bind to port 80 (443 optionally)
+# Allows non-root process to bind to ports < 1024
 # https://debian-administration.org/article/386/Running_network_services_as_a_non-root_user
 # https://superuser.com/a/892391
 RUN setcap 'cap_net_bind_service=+ep' $(which uwsgi) && \

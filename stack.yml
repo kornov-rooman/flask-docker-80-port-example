@@ -5,12 +5,12 @@ networks:
     external: true
 
 services:
-  simple:
-    image: simple:latest
+  some_service_1:
+    image: some:latest
     command: runuwsgi --port 80
-    hostname: simple-01
+    hostname: some-01
     environment:
-      VIRTUAL_HOST: first.simple.test
+      VIRTUAL_HOST: first.some.test
 
       UWSGI_UID: 1000
       UWSGI_GID: 1000
@@ -20,15 +20,15 @@ services:
     networks:
       nginx-network:
         aliases:
-          - first.simple.test
+          - first.some.test
 
-  simple2:
-    image: simple:latest
+  some_service_2:
+    image: some:latest
     entrypoint: authbind python3 manage.py
     command: rungunicorn gunicorn_conf
-    hostname: simple-02
+    hostname: some-02
     environment:
-      VIRTUAL_HOST: second.simple.test
+      VIRTUAL_HOST: second.some.test
 
       GUNICORN_BIND: 0.0.0.0:80
       GUNICORN_WORKERS: 2
@@ -37,4 +37,4 @@ services:
     networks:
       nginx-network:
         aliases:
-          - second.simple.test
+          - second.some.test

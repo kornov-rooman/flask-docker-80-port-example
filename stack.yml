@@ -1,0 +1,40 @@
+version: "3.4"
+
+networks:
+  nginx-network:
+    external: true
+
+services:
+  simple:
+    image: simple:latest
+    command: runuwsgi --port 80
+    hostname: simple-01
+    environment:
+      VIRTUAL_HOST: first.simple.test
+
+      UWSGI_UID: 1000
+      UWSGI_GID: 1000
+      UWSGI_MASTER_AS_ROOT: 1
+      UWSGI_THUNDER_LOCK: 1
+
+    networks:
+      nginx-network:
+        aliases:
+          - first.simple.test
+
+  simple2:
+    image: simple:latest
+    entrypoint: authbind python3 manage.py
+    command: rungunicorn gunicorn_conf
+    hostname: simple-02
+    environment:
+      VIRTUAL_HOST: second.simple.test
+
+      GUNICORN_BIND: 0.0.0.0:80
+      GUNICORN_WORKERS: 2
+      GUNICORN_TIMEOUT: 10
+
+    networks:
+      nginx-network:
+        aliases:
+          - second.simple.test

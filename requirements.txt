@@ -1,0 +1,7 @@
+Flask
+Flask-Script
+
+gunicorn
+uwsgi
+
+requests
